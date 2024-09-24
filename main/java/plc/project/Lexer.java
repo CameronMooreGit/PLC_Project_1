@@ -180,8 +180,9 @@ public final class Lexer {
      * return true if the next characters are {@code 'a', 'b', 'c'}.
      */
     public boolean peek(String... patterns) {
+        // Copied from lecture
         for (int i = 0; i < patterns.length; i++) {
-            if (!chars.has(i) || !Character.toString(chars.get(i)).matches(patterns[i])) {
+            if (!chars.has(i) || !String.valueOf(chars.get(i)).matches(patterns[i])) {
                 return false;
             }
         }
@@ -194,13 +195,14 @@ public final class Lexer {
      * true. Hint - it's easiest to have this method simply call peek.
      */
     public boolean match(String... patterns) {
-        if (peek(patterns)) {
+        // Copied from lecture
+        boolean peek = peek(patterns);
+        if (peek) {
             for (int i = 0; i < patterns.length; i++) {
                 chars.advance();
             }
-            return true;
         }
-        return false;
+        return peek;
     }
 
     /**
