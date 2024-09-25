@@ -61,7 +61,7 @@ public final class Lexer {
 
         if (peek("[A-Za-z_]")) {
             return lexIdentifier();
-        } else if (peek("[+-]?", "[0-9]")) {
+        } else if (peek("[+-]?|[0-9]")) {
             return lexNumber();
         } else if (peek("'")) {
             return lexCharacter();
@@ -91,8 +91,14 @@ public final class Lexer {
         }
 
         // Match digits - integer
-        while (peek("[0-9]")) {
+        while (peek("[1-9]")) {
             match("[0-9]");
+        }
+        if (peek("[0]")) {
+            match("[0]");
+            if (!peek("[.]")) {
+                throw new ParseException("Expected a digit", chars.index);
+            }
         }
 
         // Check decimal & fraction
